@@ -1,0 +1,1 @@
+﻿<%@ ServiceHost Language="C#" Debug="true" Service="Hyperlapse_GPX.Strava" CodeBehind="Strava.svc.cs" %>

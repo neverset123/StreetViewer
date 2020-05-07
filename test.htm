@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>GPX to Hyperlapse</title>
+    <link href='http://fonts.googleapis.com/css?family=Lato' rel='stylesheet' type='text/css'>
+    <link href="http://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
+    <link href="css/gpxhyperlapse.css" rel='stylesheet' type='text/css'>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+    <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false" type="text/javascript"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/knockout/3.2.0/knockout-min.js"></script>
+    <script src="js/three.min.js"></script>
+    <script src="js/GSVPano.js"></script>
+    <script src="js/Hyperlapse.js"></script>
+
+    <script>
+        $(function () {
+            var home = new google.maps.LatLng(49.169610000000006, -2.06874);
+
+            var panoramaOptions = {
+                position: home,
+                pov: {
+                    heading: 30,
+                    pitch: 0
+                },
+                visible: true
+            };
+            var panorama = new google.maps.StreetViewPanorama(document.getElementById("pano"), panoramaOptions);
+
+        });
+
+    </script>
+
+</head>
+<body>
+    <div id="container">
+
+        <a name="pano"></a>
+        <div id="pano">
+        </div>
+
+    </div>
+</body>
+</html>

@@ -126,7 +126,8 @@ var Hyperlapse = function(container, params) {
       _prev_o_heading = 0, _canvas, _context, _camera, _scene, _renderer, _mesh,
       _loader, _cancel_load = false, _ctime = Date.now(), _ptime = 0,
       _dtime = 0, _prev_pano_id = null, _raw_points = [], _h_points = [],
-      latLngPoints = new Array(), PointsCounter = 0, map = null, marker = null;
+      latLngPoints = new Array(), PointsCounter = 0, map = null, marker = null,
+      last_frame = -1;
 
   // initialize map
   map = initialize_map();
@@ -843,7 +844,24 @@ var Hyperlapse = function(container, params) {
       _is_playing = true;
       handlePlay({});
     }
+    updateMap();
   };
+
+  // update map during play
+  function updateMap() {
+    var frame = _point_index;
+    if (frame !== last_frame) {
+      console.log('current frame: ' + frame);
+      // add marker
+      var myLatLng = self.getPointCoor(_point_index);
+      self.addMarker(myLatLng);
+      //
+      last_frame = frame;
+    }
+
+    // wait approximately 16ms and run again
+    requestAnimationFrame(updateMap);
+  }
 
   /**
    * Pause animation
@@ -863,6 +881,12 @@ var Hyperlapse = function(container, params) {
     _point_index = i;
     drawMaterial();
   };
+
+  // Get current position of slider
+  this.getPosition = function() {
+    return _point_index;
+  };
+
 
   /**
    * Display next frame in sequence
@@ -890,8 +914,7 @@ var Hyperlapse = function(container, params) {
       _point_index--;
       drawMaterial();
     }
-    var myLatLng =
-        self.getPointCoor(_point_index);  // check _h_points is latLngPoints??;
+    var myLatLng = self.getPointCoor(_point_index);
     self.addMarker(myLatLng);
   };
 

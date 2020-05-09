@@ -47,7 +47,8 @@ a
 
 h1
 {
-    padding: 10px;
+	padding: 10px;
+	text-align:center;
 }
 
 .clearboth
@@ -86,27 +87,6 @@ h1
 	margin-right: auto;
 }
 
-#twitter-widget-0
-{
-    margin-top: 0px;
-    position: relative;
-}
-
-#twitter-right
-{
-    width: 220px;
-    float: right;
-    height: auto; 
-    position: fixed;
-    right: 0;
-}
-
-#strava-connect
-{
-	float: right;
-	margin-top: 5px;
-}
-
 #fileUpload
 {
     float: right;
@@ -114,29 +94,9 @@ h1
     display: none;
 }
 
-.authenticatedStrava 
-{
-    
-    text-align: left;
-   
-}
-
 #slider
 {
     font-size: 80%;
-}
-
-#stravaActivities
-{
-    padding: 20px;
-    height: 150px;
-    overflow-y: scroll;
-    background-color: #454545;
-}
-
-#stravaActivities a
-{
-    color: #FF9900;
 }
 
 #dropTarget
@@ -146,6 +106,7 @@ h1
 	padding: 20px;
 	color: #000;
 	margin-bottom: 20px;
+	text-align:center;
 }
 
 #loading 
@@ -158,17 +119,10 @@ h1
 #pano
 {
 	height: 400px;
+	width: 100%;
 	background-color: #000;
 	border: 0px solid #FFF;
 	overflow: hidden;
-}
-
-
-#pano-zoom
-{
-    position: absolute;
-    top: 5px;
-    right: 5px;
 }
 
 #controls
@@ -176,8 +130,9 @@ h1
 	padding: 8px;
 	background-color: #444446;
 	color: #FFF;
-	display: none;
-    height: 30px;
+	/*display: none;*/
+	height: 30px;
+	width: 310px
 }
 
 #controls button
@@ -192,7 +147,7 @@ h1
 	padding: 10px;
 	background-color: #444446;
 	text-align: left;
-	display: none;
+	/*display: none;*/
 }
 
 #settings label
@@ -212,19 +167,3 @@ h1
 {
 	float: right;
 }
-
-#footer, .push
-{
-     height: 70px;
-}
-
-#footer {
-    background-color: #565656;
-}
-
-#footer div
-{
-    padding: 10px;
-    clear: both;
-}
-

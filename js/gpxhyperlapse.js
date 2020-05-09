@@ -112,10 +112,6 @@ function loadHyperlapse() {
             'Loading panorama ' + e.position + ' of ' + viewModel.max_points());
     console.log(e);
   };
-  // add position marker
-  function addMarker(location, map) {
-    var marker = new google.maps.Marker({position: location, map: map});
-  }
 
   GpxHyperlapseApp.hyperlapse.onFrame = function(e) {
     // console.log(e);
@@ -132,9 +128,8 @@ function loadHyperlapse() {
         console.log(
             GpxHyperlapseApp.hyperlapse.getPointCoor(ui.value).lat() + ',' +
             GpxHyperlapseApp.hyperlapse.getPointCoor(ui.value).lng());
-        var map = initialize_map();
         var myLatLng = GpxHyperlapseApp.hyperlapse.getPointCoor(ui.value);
-        addMarker(myLatLng, map);
+        GpxHyperlapseApp.hyperlapse.addMarker(myLatLng);
       }
     });
   };
@@ -160,125 +155,6 @@ function loadHyperlapse() {
 
   GpxHyperlapseApp.hyperlapse.generate(route);
 }
-
-function getCookie(cname) {
-  var name = cname + '=';
-  var ca = document.cookie.split(';');
-  for (var i = 0; i < ca.length; i++) {
-    var c = ca[i];
-    while (c.charAt(0) == ' ') c = c.substring(1);
-    if (c.indexOf(name) != -1) return c.substring(name.length, c.length);
-  }
-  return '';
-}
-
-$(function() {
-  /*
-  var MAPMYAPI_CLIENT_ID = "ezx6uqtc26h6agp9u5nsydxbbbs2dmm5";
-  var MAPMYAPI_AUTHORIZATON_ENDPOINT =
-  "https://www.mapmyfitness.com/v7.0/oauth2/authorize/";
-
-  var mapmyapi_code = getCookie("mapmyapi_code");
-  if (mapmyapi_code)
-  {
-
-  }
-  else
-  {
-      $('a.connectMyMyApi').show();
-
-      var authUrl = MAPMYAPI_AUTHORIZATON_ENDPOINT +
-        "?response_type=code" +
-        "&client_id=" + MAPMYAPI_CLIENT_ID +
-        "&redirect_uri=" + location.protocol + '//' + location.host +
-  "/mapmyapiauth/" +
-        "&state=activities&approval_prompt=force";
-
-      $("a.connectMyMyApi").attr("href", authUrl);
-  }
-  */
-
-  var STRAVA_CLIENT_ID = 3822;
-  var STRAVA_AUTHORIZATION_ENDPOINT = 'https://www.strava.com/oauth/authorize';
-  var strava_code = getCookie('strava_code');
-  if (strava_code) {
-    $.ajax({
-      type: 'POST',
-      contentType: 'application/json; charset=utf-8',
-      url: 'Strava.svc/Auth',
-      data: '{"code": "' + strava_code + '"}',
-      dataType: 'json',
-      success: function(response) {
-        GpxHyperlapseApp.StravaAuth = JSON.parse(response.AuthResult);
-        GpxHyperlapseApp.Strava_access_token =
-            GpxHyperlapseApp.StravaAuth.access_token;
-        GpxHyperlapseApp.Strava_athlete = GpxHyperlapseApp.StravaAuth.athlete;
-        GpxHyperlapseApp.Strava_athlete_id =
-            GpxHyperlapseApp.StravaAuth.athlete.id;
-
-        $('div.authenticatedStrava').show();
-
-        $('span.user').text(GpxHyperlapseApp.StravaAuth.athlete.firstname);
-
-        loadActivities();
-      },
-      error: function(message) {
-        alert('error has occured');
-      }
-    });
-
-
-  } else {
-    $('a.connectStrava').show();
-
-    var authUrl = STRAVA_AUTHORIZATION_ENDPOINT + '?response_type=code' +
-        '&client_id=' + STRAVA_CLIENT_ID +
-        '&redirect_uri=' + location.protocol + '//' + location.host +
-        '/stravaauth/' +
-        '&state=activities&approval_prompt=force';
-
-    $('a.connectStrava').attr('href', authUrl);
-  }
-});
-
-function loadActivities() {
-  $.getJSON(
-      'https://www.strava.com/api/v3/athlete/activities?access_token=' +
-          GpxHyperlapseApp.Strava_access_token + '&per_page=100&callback=?',
-      function(data) {
-        viewModel.stravaActivities(data);
-      });
-}
-
-function loadStravaActivity(id) {
-  $.getJSON(
-      'https://www.strava.com/api/v3/activities/' + id +
-          '/streams/latlng?access_token=' +
-          GpxHyperlapseApp.Strava_access_token + '&callback=?',
-      function(data) {
-        GpxHyperlapseApp.xmlGpx = data[0];
-        $('#pano').html('');
-
-        var maxPoints = data[0].data.length;
-
-        console.log('maxPoints: ' + maxPoints);
-
-        if (maxPoints > viewModel.max_points() * 2) {
-          viewModel.max_points(Math.floor(maxPoints / 3));
-        } else {
-          viewModel.max_points(maxPoints);
-        }
-
-        GpxHyperlapseApp.latLngPoints = new Array();
-        for (j = 0; j < data[0].data.length; j++) {
-          GpxHyperlapseApp.latLngPoints.push(
-              new google.maps.LatLng(data[0].data[j][0], data[0].data[j][1]));
-        }
-
-        loadHyperlapse();
-      });
-}
-
 
 var viewModel = {
 
@@ -375,44 +251,6 @@ function init() {
       $('#controls').css('top', window.pageYOffset + window.innerHeight - 46);
     }
   });*/
-  initialize_map()
-}
-
-function initialize_map() {
-  var map = new google.maps.Map(
-      document.getElementById('map_canvas'),
-      {mapTypeId: google.maps.MapTypeId.TERRAIN});
-
-  $.ajax({
-    type: 'GET',
-    url: '../../Mercury_RouteB_20200427_113553.gpx',
-    dataType: 'xml',
-    success: function(xml) {
-      var points = [];
-      var bounds = new google.maps.LatLngBounds();
-      $(xml).find('trkpt').each(function() {
-        var lat = $(this).attr('lat');
-        var lon = $(this).attr('lon');
-        var p = new google.maps.LatLng(lat, lon);
-        points.push(p);
-        bounds.extend(p);
-      });
-
-      var poly = new google.maps.Polyline({
-        // use your own style here
-        path: points,
-        strokeColor: '#FF00AA',
-        strokeOpacity: .7,
-        strokeWeight: 4
-      });
-
-      poly.setMap(map);
-
-      // fit bounds to track
-      map.fitBounds(bounds);
-    }
-  });
-  return map
 }
 
 $(document).ready(function() {

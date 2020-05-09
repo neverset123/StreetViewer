@@ -126,7 +126,10 @@ var Hyperlapse = function(container, params) {
       _prev_o_heading = 0, _canvas, _context, _camera, _scene, _renderer, _mesh,
       _loader, _cancel_load = false, _ctime = Date.now(), _ptime = 0,
       _dtime = 0, _prev_pano_id = null, _raw_points = [], _h_points = [],
-      latLngPoints = new Array(), PointsCounter = 0;
+      latLngPoints = new Array(), PointsCounter = 0, map = null, marker = null;
+
+  // initialize map
+  map = initialize_map();
 
   /**
    * @event Hyperlapse#onError
@@ -854,25 +857,26 @@ var Hyperlapse = function(container, params) {
   /**
    * Go to a specific frame (e.g. from slider)
    */
-  this.setPosition =
-      function(i) {
+  this.setPosition = function(i) {
     self.pause();
 
     _point_index = i;
     drawMaterial();
-  }
+  };
 
-      /**
-       * Display next frame in sequence
-       * @fires Hyperlapse#onFrame
-       */
-      this.next = function() {
+  /**
+   * Display next frame in sequence
+   * @fires Hyperlapse#onFrame
+   */
+  this.next = function() {
     self.pause();
 
     if (_point_index + 1 != _h_points.length) {
       _point_index++;
       drawMaterial();
     }
+    var myLatLng = self.getPointCoor(_point_index);
+    self.addMarker(myLatLng);
   };
 
   /**
@@ -886,10 +890,58 @@ var Hyperlapse = function(container, params) {
       _point_index--;
       drawMaterial();
     }
+    var myLatLng =
+        self.getPointCoor(_point_index);  // check _h_points is latLngPoints??;
+    self.addMarker(myLatLng);
   };
 
   // function to return point index
   this.getPointCoor = function(frameIndex) {
     return latLngPoints[frameIndex];
+  };
+
+  // add position marker
+  this.addMarker = function(location) {
+    if (marker != null) marker.setMap(null);
+    marker = new google.maps.Marker({position: location, map: map});
+    marker.setMap(map);
   }
 };
+
+
+function initialize_map() {
+  var map = new google.maps.Map(
+      document.getElementById('map_canvas'),
+      {mapTypeId: google.maps.MapTypeId.TERRAIN});
+
+  $.ajax({
+    type: 'GET',
+    url: '../../Mercury_RouteB_20200427_113553.gpx',
+    dataType: 'xml',
+    success: function(xml) {
+      var points = [];
+      var bounds = new google.maps.LatLngBounds();
+      $(xml).find('trkpt').each(function() {
+        var lat = $(this).attr('lat');
+        var lon = $(this).attr('lon');
+        var p = new google.maps.LatLng(lat, lon);
+        points.push(p);
+        bounds.extend(p);
+      });
+
+      var poly = new google.maps.Polyline({
+        // use your own style here
+        path: points,
+        strokeColor: '#FF00AA',
+        strokeOpacity: .7,
+        strokeWeight: 4
+      });
+
+      poly.setMap(map);
+
+      // fit bounds to track
+      map.fitBounds(bounds);
+    }
+  });
+  return map
+}

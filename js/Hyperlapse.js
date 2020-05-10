@@ -1,8 +1,6 @@
 /**
  * @overview Hyperapse.js - JavaScript hyper-lapse utility for Google Street
  * View.
- * @author Peter Nitsch
- * @copyright Teehan+Lax 2013
  */
 
 Number.prototype.toRad = function() {

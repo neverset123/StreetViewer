@@ -910,7 +910,7 @@ var Hyperlapse = function(container, params) {
   this.prev = function() {
     self.pause();
 
-    if (_point_index - 1 !== 0) {
+    if (_point_index !== 0) {
       _point_index--;
       drawMaterial();
     }

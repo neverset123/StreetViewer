@@ -24,51 +24,51 @@
         <input type="file" id="file" name="file" />
     </div>
     <h1> Google Street View Player </h1>
-    <div id="dropTarget" draggable="true">Drag a GPX file here to generate hyperlapse video
-    </div>
+    <div id="dropTarget" draggable="true">Drag a GPX file here to generate hyperlapse video</div>
     <div id="loading"><i id='spinner' class='fa fa-spinner fa-spin'></i> <span></span></div>
-    <div id="pano" style="position:absolute; width:100%; height: 40%; left:0px; top:160px;">
+    <div id="pano"></div>
+    <div id="slider"></div>
+    <div class="aParent">
+        <div id="controls">
+            <button data-bind='click: prevHyperlapse'><i class="fa fa-step-backward"></i></button>
+            <button data-bind='click: pauseHyperlapse'><i class="fa fa-pause"></i></button>
+            <button data-bind='click: playHyperlapse'><i class="fa fa-play"></i></button>
+            <button data-bind='click: nextHyperlapse'><i class="fa fa-step-forward"></i></button>
+            &nbsp;
+            &nbsp;
+            <button data-bind='click: toggleHyperlapseSize'><i class="fa fa-arrows-alt"></i></button>
+        </div>
+        <div id="settings">
+            <label>
+                Milliseconds between frames:
+                <select data-bind='value: millis'>
+                    <option>10</option>
+                    <option>50</option>
+                    <option>100</option>
+                    <option>200</option>
+                    <option>500</option>
+                    <option>1000</option>
+                </select>
+            </label>
+            &nbsp;
+            <label>
+                Max. number of frames:
+                <select data-bind='value: max_points()'>
+                    <option>50</option>
+                    <option>100</option>
+                    <option>200</option>
+                    <option>400</option>
+                    <option>1000</option>
+                </select>
+            </label>
+            &nbsp;
+            <span>Requires reload: </span>
+            <button data-bind="click: reloadHyperlapse, enable: (viewModel.max_points() != 50)">Reload</button>
+            <br class="clearboth" />
+        </div>
     </div>
-    <div id="controls" style="position:absolute; right:20px; top:250px;">
-        <div id="slider"></div>
-        <button data-bind='click: prevHyperlapse'><i class="fa fa-step-backward"></i></button>
-        <button data-bind='click: pauseHyperlapse'><i class="fa fa-pause"></i></button>
-        <button data-bind='click: playHyperlapse'><i class="fa fa-play"></i></button>
-        <button data-bind='click: nextHyperlapse'><i class="fa fa-step-forward"></i></button>
-        &nbsp;
-        &nbsp;
-        <button data-bind='click: toggleHyperlapseSize'><i class="fa fa-arrows-alt"></i></button>
-    </div>
-    <div id="settings" style="position:absolute; right:20px; top:300px;">
-        <label>
-            Milliseconds between frames
-            <select data-bind='value: millis'>
-                <option>10</option>
-                <option>50</option>
-                <option>100</option>
-                <option>200</option>
-                <option>500</option>
-                <option>1000</option>
-            </select>
-        </label>
 
-        <label>
-            *Number of frames
-            <select data-bind='value: max_points()'>
-                <option>50</option>
-                <option>100</option>
-                <option>200</option>
-                <option>400</option>
-                <option>1000</option>
-            </select>
-        </label>
-
-        <span>*Requires reload</span>
-        <button data-bind="click: reloadHyperlapse, enable: (viewModel.max_points() != 50)">Reload</button>
-        <br class="clearboth" />
-    </div>
-
-    <div id="map_canvas" style="position:absolute; width:100%; height: 40%; bottom:0px;"></div>
+    <div id="map_canvas"></div>
 </body>
 
 </html>

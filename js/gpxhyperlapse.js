@@ -135,7 +135,6 @@ function loadHyperlapse() {
   };
 
   GpxHyperlapseApp.hyperlapse.onLoadComplete = function(e) {
-    $('iframe#youtube').hide();
     $('#controls').show();
     $('#settings').show();
     $('#loading').css('visibility', 'hidden');
@@ -240,17 +239,6 @@ function init() {
   if (window.File && window.FileReader && window.FileList && window.Blob) {
     //
   }
-
-  // document.getElementById('files').addEventListener('change',
-  // handleFileUpload, false);
-  // var offsetPixels = 100;
-
-  /*$(window).scroll(function() {
-    if ($('#controls').css('position') == 'absolute') {
-      $('canvas').css('top', window.pageYOffset);
-      $('#controls').css('top', window.pageYOffset + window.innerHeight - 46);
-    }
-  });*/
 }
 
 $(document).ready(function() {

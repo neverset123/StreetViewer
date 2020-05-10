@@ -32,19 +32,6 @@ body
     margin: auto;
 }
 
-
-#container {
-    min-height: 100%;
-    height: auto !important;
-    height: 100%;
-    margin: 0 auto -30px; 
-}
-
-a 
-{
-	color: #9999FF;
-}
-
 h1
 {
 	padding: 10px;
@@ -56,6 +43,10 @@ h1
 	clear: both;
 	height: 1px;
 	line-height: 1px;
+}
+.aParent div {
+    float: left;
+    clear: none; 
 }
 
 .hidden
@@ -118,21 +109,37 @@ h1
 
 #pano
 {
-	height: 400px;
+	/*height: 400px;*/
+	height: 40%; 
 	width: 100%;
+	left:0px; 
+	top:160px;
 	background-color: #000;
 	border: 0px solid #FFF;
 	overflow: hidden;
 }
 
+#map_canvas
+{	
+	/*height: 400px;*/
+	height: 40%; 
+	width: 100%;
+	bottom:0px;
+	left:0px; 
+	background-color: #000;
+	border: 0px solid #FFF;
+	overflow: hidden;
+}
+
+
 #controls
 {
+	height: 17px;
+	width: 30%;
 	padding: 8px;
 	background-color: #444446;
 	color: #FFF;
 	/*display: none;*/
-	height: 30px;
-	width: 310px
 }
 
 #controls button
@@ -144,10 +151,15 @@ h1
 
 #settings
 {
-	padding: 10px;
+	right:20px;
+	top:300px;
+	padding: 0px;
 	background-color: #444446;
-	text-align: left;
-	/*display: none;*/
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	/*text-align: left;
+	display: none;*/
 }
 
 #settings label
@@ -155,15 +167,4 @@ h1
 	display: block; 
 	width: 300px;
 	padding: 4px;
-	
-}
-
-#settings label input, #settings label select
-{
-	float: right;
-}
-
-#settings button
-{
-	float: right;
 }

@@ -1,6 +1,10 @@
 // Be a good client-side citizen and define GpxHyperlapseApp object and locally
 // scoped variables
 var GpxHyperlapseApp = GpxHyperlapseApp || {};
+var currentGpxContents = {
+  'points': [],
+  'bounds': new google.maps.LatLngBounds()
+};
 
 GpxHyperlapseApp.hyperlapse = null;
 GpxHyperlapseApp.xmlGpx = '';
@@ -56,6 +60,13 @@ function readerOnLoadEnd(filereader, file) {
     GpxHyperlapseApp.latLngPoints.push(new google.maps.LatLng(
         gpxWayPoints[j].attributes['lat'].value,
         gpxWayPoints[j].attributes['lon'].value));
+    // fill dictionary for map initialization
+    currentGpxContents.points.push(new google.maps.LatLng(
+        gpxWayPoints[j].attributes['lat'].value,
+        gpxWayPoints[j].attributes['lon'].value));
+    currentGpxContents.bounds.extend(new google.maps.LatLng(
+        gpxWayPoints[j].attributes['lat'].value,
+        gpxWayPoints[j].attributes['lon'].value));
   }
 
   loadHyperlapse();
@@ -83,8 +94,8 @@ function loadHyperlapse() {
         use_lookat: viewModel.use_lookat(),
         // elevation: 100,
         millis: viewModel.millis(),
-        max_points: viewModel.max_points()
-
+        max_points: viewModel.max_points(),
+        gpxContents: currentGpxContents,
       });
 
   GpxHyperlapseApp.hyperlapse.onError = function(e) {

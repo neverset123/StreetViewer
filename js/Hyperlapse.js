@@ -130,7 +130,7 @@ var Hyperlapse = function(container, params) {
       last_frame = -1;
 
   // initialize map
-  map = initialize_map();
+  map = initialize_map(_params.gpxContents);
 
   /**
    * @event Hyperlapse#onError
@@ -698,13 +698,6 @@ var Hyperlapse = function(container, params) {
   };
 
   /**
-   * @returns {HyperlapsePoint}
-   */
-  this.getCurrentPoint = function() {
-    return _h_points[_point_index];
-  };
-
-  /**
    * @param {google.maps.LatLng} point
    * @param {boolean} call_service
    * @param {function} callback
@@ -932,13 +925,13 @@ var Hyperlapse = function(container, params) {
 };
 
 
-function initialize_map() {
+function initialize_map(fileContents) {
   var map = new google.maps.Map(
       document.getElementById('map_canvas'),
       {mapTypeId: google.maps.MapTypeId.TERRAIN});
 
   $.ajax({
-    type: 'GET',
+    /*type: 'GET',
     url: '../../Mercury_RouteB_20200427_113553.gpx',
     dataType: 'xml',
     success: function(xml) {
@@ -950,11 +943,12 @@ function initialize_map() {
         var p = new google.maps.LatLng(lat, lon);
         points.push(p);
         bounds.extend(p);
-      });
-
+      });*/
+    success: function() {
       var poly = new google.maps.Polyline({
         // use your own style here
-        path: points,
+        // path: points,
+        path: fileContents.points,
         strokeColor: '#FF00AA',
         strokeOpacity: .7,
         strokeWeight: 4
@@ -963,7 +957,8 @@ function initialize_map() {
       poly.setMap(map);
 
       // fit bounds to track
-      map.fitBounds(bounds);
+      // map.fitBounds(bounds);
+      map.fitBounds(fileContents.bounds)
     }
   });
   return map

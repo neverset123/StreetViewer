@@ -1,5 +1,5 @@
 var GSVPANO = GSVPANO || {};
-// GSVPANO.latLngPoints = new Array();
+
 GSVPANO.PanoLoader = function(parameters) {
   'use strict';
 
@@ -27,6 +27,7 @@ GSVPANO.PanoLoader = function(parameters) {
     }
   };
 
+  // adapt image to defined zoom
   this.adaptTextureToZoom = function() {
     // var w = 416 * Math.pow(2, _zoom), h = (416 * Math.pow(2, _zoom - 1));
     var w = 416 * Math.pow(2, _zoom), h = (416 * Math.pow(2, _zoom - 1));
@@ -36,7 +37,9 @@ GSVPANO.PanoLoader = function(parameters) {
     _ctx.scale(-1, 1);
   };
 
+  // draw image without zoom
   this.composeFromTile = function(x, y, texture) {
+    //_ctx.drawImage(texture, x * 512, y * 512);
     _ctx.drawImage(texture, x * 512, y * 512);
     _count++;
 

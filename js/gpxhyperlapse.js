@@ -149,7 +149,7 @@ function loadHyperlapse() {
     $('#controls').show();
     $('#settings').show();
     $('#loading').css('visibility', 'hidden');
-    // viewModel.toggleHyperlapseSize();
+    viewModel.toggleHyperlapseSize();
     GpxHyperlapseApp.hyperlapse.play();
   };
 
@@ -217,11 +217,11 @@ var viewModel = {
       $('canvas').css('left', 0);
       $('canvas').css('width', document.body.clientWidth);
       $('canvas').css('height', window.innerHeight);
-      $('#controls').css('z-index', '100');
+      $('#controls').css('z-index', '');
       $('#controls').css('position', 'absolute')
-      $('#controls').css('top', window.pageYOffset + window.innerHeight - 46);
-      $('#controls').css('width', document.body.clientWidth - 16);
-      $('#controls').css('left', '0');
+      $('#controls').css('top', '');
+      $('#controls').css('width', '');
+      $('#controls').css('left', '');
     }
   }
 

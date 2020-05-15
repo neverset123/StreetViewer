@@ -5,5 +5,7 @@ Street Viewer based on Google Map and OSM
 
 	# cd to the root folder of the project
 	python2 -m SimpleHTTPServer 8000
-	# open http://0.0.0.0:8000 and click Hyerlapse-GPX
+	# or
+	python3 -m http.server 8000
+	# open http://0.0.0.0:8000
 
